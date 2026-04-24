@@ -2,18 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SuperGroup Project | Secure Access</title>
+  <title>SuperGroup Project</title>
   
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Righteous&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Domine&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+
   <link rel="stylesheet" type="text/css" href="./index.css" />
-  <link rel="stylesheet" type="text/css" href="./styles.css" />
+  <link rel="stylesheet" type="text/css" href="./styles.css" /> 
   <link rel="stylesheet" href="./project.css">
 
   <style>
-    /* Security Overlay Styling */
+    /* Security Overlay Styling - Handled separately to avoid interference */
     #loginOverlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -35,37 +44,24 @@
       max-width: 400px;
       width: 90%;
     }
-    #userName {
+    #userName, .pass-wrapper input {
       width: 100%;
       border: 1px solid #DADCE0;
       border-radius: 6px;
       padding: 12px;
-      margin-bottom: 5px;
       font-size: 16px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
     }
-    .pass-wrapper {
-      position: relative;
-      width: 100%;
-      margin: 15px 0;
-    }
-    .pass-wrapper input {
-      width: 100%;
-      border: 1px solid #DADCE0;
-      border-radius: 6px;
-      padding: 12px;
-      padding-right: 40px;
-      font-size: 16px;
-    }
+    .pass-wrapper { position: relative; width: 100%; }
     .toggle-password {
       position: absolute;
       right: 12px;
-      top: 50%;
+      top: 22px; /* Adjusted for input height */
       transform: translateY(-50%);
       cursor: pointer;
       color: #666;
-      transition: color 0.2s;
     }
-    .toggle-password:hover { color: #F67D31; }
     .login-box button {
       background: #F67D31;
       color: white;
@@ -75,18 +71,12 @@
       cursor: pointer;
       font-weight: bold;
       width: 100%;
-      transition: background 0.3s;
     }
-    .login-box button:hover { background: #e56d21; }
-    
-    /* Content Wrapper */
     #protectedContent { display: none; }
-    
-    /* Fix for navigation padding */
-    body { padding-top: 70px; }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://kit.fontawesome.com/268d442577.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -95,192 +85,153 @@
     <div class="login-box">
       <img src="./Pimages/ictglobe.png" height="45px" alt="ICTGlobe"><br><br>
       <h4 style="font-weight: bold; color: #0B2147;">Internal Project Portal</h4>
-      <p style="font-size: 13px; color: #666;">Enter your assigned credentials to view SuperGroup resources.</p>
+      <p style="font-size: 13px; color: #666;">Please enter your credentials to access the SuperGroup Project site.</p>
       
       <input type="text" id="userName" placeholder="Username" autofocus>
       
       <div class="pass-wrapper">
         <input type="password" id="passInput" placeholder="Password">
-        <i class="fa-regular fa-eye toggle-password" id="eyeIcon" title="Hover to view"></i>
+        <i class="fa-regular fa-eye toggle-password" id="eyeIcon"></i>
       </div>
       
       <button onclick="checkPassword()">Verify & Access</button>
-      <p id="errMsg" style="color:#d93025; display:none; font-size:13px; margin-top:15px; font-weight: bold;">⚠️ Invalid credentials. Access denied.</p>
+      <p id="errMsg" style="color:#d93025; display:none; font-size:13px; margin-top:15px; font-weight: bold;">⚠️ Access Denied.</p>
     </div>
   </div>
 
   <div id="protectedContent">
-    <header class="navbar navbar-default wh_header fixed-top" style="background: #0B2147;">
-      <div class="container-fluid">
-          <nav class="navbar navbar-expand-md navbar-dark w-100">
-            <a class="navbar-brand" href="#"><img src="./Pimages/ictglobe.png" height="40px" alt="ICTGlobe"> </a>
-            <div class="collapse navbar-collapse justify-content-end">
-              <ul class="navbar-nav">
-                <li class="nav-item"><a href="#links" class="nav-link text-white px-3">Links</a></li>
-                <li class="nav-item"><a href="#learn" class="nav-link text-white px-3">Videos</a></li>
-                <li class="nav-item"><a href="#docs" class="nav-link text-white px-3">Documents</a></li>
+    <header class="navbar navbar-default wh_header" id="test">
+      <div class="topcontainer">
+        <div class="bg-primary">
+          <nav class="navbar navbar-expand-md fixed-top navbar-dark">
+            <a class="navbar-brand" href="https://solution-resources-sg.netlify.app/"><img src="./Pimages/ictglobe.png" height="40px" alt="ICTGlobe"> </a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a href="#links" class="myTopButton">Links</a></li>
+                <li class="nav-item"><a href="#learn" class="myTopButton">Video's</a></li>
+                <li class="nav-item"><a href="#docs" class="myTopButton">Documents</a></li>
               </ul>
             </div>
           </nav>
+        </div>
       </div>
     </header>
 
-    <main class="container mt-5">
-      <section class="content py-4" id="project">
-        <h3 class="display-6 fw-bold">Recommended Resources and Training</h3>
-        <p class="lead">This web page contains informative resources related to your business solution.</p>
-        <div class="card bg-light p-4 border-0">
-          <strong>How to navigate to content:</strong>
-          <ol class="mt-2">
-            <li>Select a category from the top menu.</li>
-            <li>Hover over an image to see the document or video link.</li>
-            <li>Click the link to open the resource in a new tab.</li>
-          </ol>
-        </div>
-      </section>
+    <main>
+      <div id="test" style="display:block;">
+        <section class="content" id="project">
+          <h3 class="content__Intro">Recommended Resources and Training</h3>
+          <h3 class="content__subtitle" style="text-align: left;">This web page contains informative resources related to your business solution. <br><br>
+            <strong>How to navigate to content: </strong><br><br>
+            <ol>
+              <li style="padding: 0.2rem 0 0 0.5rem;">Navigate to one of the available sections presented on the top menu.</li>
+              <li style="padding: 0.2rem 0 0 0.5rem;">Each image contains a resource, or list of resources, that can be selected from each picture. </li>
+              <li style="padding: 0.2rem 0 0 0.5rem;"> Select a resource and enjoy the content!</li>
+            </ol>
+          </h3>
+        </section>
 
-      <div id="docs" class="py-5">
-        <h2 class="border-bottom pb-2">Documents and Diagrams</h2>
-        <p class="text-muted small">*Note: Confidential PDFs may require an additional internal password.</p>
-        <div class="row g-4 mt-2">
-          <div class="col-md-4">
-            <div class="media card text-center p-3">
-              <img src="./Pimages/paper.jpg" class="card-img-top mx-auto" style="width: 150px;" alt="Doc">
-              <div class="card-body">
-                <a href="./PResources/ICT JML Flowchart.pdf" target="_blank" class="btn btn-outline-primary btn-sm">ICT JML Flowchart</a>
-              </div>
+        <div id="docs" class="top-container" style="padding-top: 47px;">
+          <br><h2 class="content__START"><span class="HOW" style="text-align: left;">Documents and Diagrams</span> </h2>
+          <h4 class="content__subtitle" style="text-align: left; font-size: medium;"><strong>*Some documents may be protected, passwords can be obtained from your line manager.</strong></h4>
+          <div class="wrapper">
+            <div class="media">
+              <div class="layer"><p><a href="./PResources/ICT JML Flowchart.pdf" target="_blank"><strong>ICT JML Flowchart</strong></a></p></div>
+              <img src="./Pimages/paper.jpg" alt="Document" width="250" height="350" />
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="media card text-center p-3">
-              <img src="./Pimages/design.jpg" class="card-img-top mx-auto" style="width: 150px;" alt="Doc">
-              <div class="card-body">
-                <a href="./PResources/Scenario Framework .pdf" target="_blank" class="btn btn-outline-primary btn-sm">Scenario Frameworks</a>
-              </div>
+            <div class="media">
+              <div class="layer"><p><a href="./PResources/Scenario Framework .pdf" target="_blank"><strong>Scenario Frameworks</strong></a></p></div>
+              <img src="./Pimages/design.jpg" alt="Document" width="250" height="250" />
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="media card text-center p-3">
-              <img src="./Pimages/paper.jpg" class="card-img-top mx-auto" style="width: 150px;" alt="Doc">
-              <div class="card-body">
-                <a href="./PResources/SG Implementation [V9].pdf#toolbar=0" target="_blank" class="btn btn-outline-primary btn-sm">Project Implementation</a>
-              </div>
+            <div class="media">
+              <div class="layer"><p><a href="./PResources/SG Implementation [V9].pdf#toolbar=0" target="_blank"><strong>Project Implementation</strong></a></p></div>
+              <img src="./Pimages/paper.jpg" alt="Document" width="250" height="350" />
             </div>
           </div>
         </div>
+
+        <div id="learn" class="top-container" style="padding-top: 68px;">
+          <h2 class="content__START"><span class="HOW" style="text-align: left;">Training Resources</span> </h2>
+          <h4 class="content__subtitle" style="text-align: left; font-size: x-large;"><strong>3CX Workshop - Part 1</strong></h4>
+          <div class="wrapper">
+            <div class="media">
+              <div class="layer">
+                <p><a href="./PResources/1. 3CX SMB Free and Hosted.mp4" target="_blank"><strong>1. 3CX SMB Free & Hosted</strong></a><br>
+                  <a href="./PResources/2. 3CX Support of Hosted Services.mp4" target="_blank"><strong>2. Services Support</strong></a><br>
+                  <a href="./PResources/3. Basic 3CX Setup.mp4" target="_blank"><strong>3. Basic Setup</strong></a></p>
+              </div>
+              <img src="./Pimages/office.jpg" alt="Document" width="250" height="250" />
+            </div>
+          </div>
+        </div>
+
+        <div id="links" class="top-container" style="padding-top: 47px;">
+          <br><h2 class="content__START"><span class="HOW" style="text-align: left;">Useful Links</span> </h2>
+          <div class="wrapper">
+            <div class="media">
+              <div class="layer"><p><a href="https://www.youtube.com/watch?v=GQkv1MUouJY" target="_blank"><strong>Basic Certification - Day 1</strong></a></p></div>
+              <img src="./Pimages/paper.jpg" alt="Document" width="250" height="350" />
+            </div>
+          </div>
+        </div>
+
+        <footer class="navbar navbar-default wh_footer">
+          <div class="footer-container mx-auto">
+            <div><img src="./Pimages/ictglobe.png" alt="ICTLabs" width="100px"> <strong>Solutions made easy</strong></div>
+          </div>
+        </footer>
       </div>
-
-      <div id="learn" class="py-5">
-        <h2 class="border-bottom pb-2">Training Resources (Videos)</h2>
-        <div class="row g-4 mt-2">
-          <div class="col-md-4">
-            <div class="card p-3 h-100">
-               <img src="./Pimages/office.jpg" class="card-img-top mb-2" alt="Training">
-               <strong>3CX Workshop - Part 1</strong>
-               <ul class="list-unstyled small mt-2">
-                 <li><a href="./PResources/1. 3CX SMB Free and Hosted.mp4" target="_blank">1. 3CX SMB Free & Hosted</a></li>
-                 <li><a href="./PResources/2. 3CX Support of Hosted Services.mp4" target="_blank">2. Services Support</a></li>
-                 <li><a href="./PResources/3. Basic 3CX Setup.mp4" target="_blank">3. Basic Setup</a></li>
-               </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <footer class="mt-5 py-4 border-top text-center">
-        <img src="./Pimages/ictglobe.png" alt="ICTGlobe" width="100px">
-        <p class="mt-2 fw-bold">Solutions made easy</p>
-      </footer>
     </main>
   </div>
-
   <script>
     // --- SETTINGS ---
-    // Update the URL below with your Discord/Slack Webhook URL
-    const webhookURL = "YOUR_WEBHOOK_URL_HERE";
-
-    // Pre-defined User Registry (Username: Password)
+    const webhookURL = "https://discord.com/api/webhooks/1497207847509950587/sbDDBkjfijbKrglVaDDmG-UAov6-DV2InTLRbtL_hjGDG1uPUptJDN6hZMsRESSMnCA7"; 
     const authorizedUsers = {
       "estelle": "Estelle2026!",
-      "carel": "care1",
-      //"bennie": "BennieSGP",
-      //"supergroup": "SG_Portal_2026"
+      "carel": "c4re1",
+      "supergroup": "SG_Portal_2026"
     };
 
     const eyeIcon = document.getElementById('eyeIcon');
     const passInput = document.getElementById('passInput');
     const nameInput = document.getElementById('userName');
 
-    // --- LOGIC ---
-
     // Password Visibility Hover
-    eyeIcon.addEventListener('mouseenter', () => {
-      passInput.type = 'text';
-      eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
-    });
-    eyeIcon.addEventListener('mouseleave', () => {
-      passInput.type = 'password';
-      eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
-    });
+    eyeIcon.addEventListener('mouseenter', () => { passInput.type = 'text'; eyeIcon.classList.replace('fa-eye', 'fa-eye-slash'); });
+    eyeIcon.addEventListener('mouseleave', () => { passInput.type = 'password'; eyeIcon.classList.replace('fa-eye-slash', 'fa-eye'); });
 
-    // Notify Access with IP and Browser Fingerprint
+    // Notification Logic
     async function notifyAccess(user) {
       if (!webhookURL.startsWith("http")) return;
-
-      let ipAddress = "Hidden/Blocked";
-      try {
-        const ipRes = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipRes.json();
-        ipAddress = ipData.ip;
-      } catch (e) { console.log("IP fetch failed"); }
-
-      // Simplify Browser Name
-      const browser = navigator.userAgentData ? navigator.userAgentData.brands[0].brand : "Standard Browser";
-      const platform = navigator.platform;
-
+      let ip = "Unknown";
+      try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); ip = data.ip; } catch (e) {}
+      
       const payload = {
-        content: `🛡️ **Secure Access Logged**\n**User:** ${user.toUpperCase()}\n**IP:** ${ipAddress}\n**Device/Browser:** ${browser} (${platform})\n**Time:** ${new Date().toLocaleString('en-ZA')}`
+        content: `🛡️ **Access Logged**\n**User:** ${user.toUpperCase()}\n**IP:** ${ip}\n**Time:** ${new Date().toLocaleString('en-ZA')}`
       };
-
-      try {
-        await fetch(webhookURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-      } catch (err) { console.error("Notification failed", err); }
+      fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     }
 
-    // Main Login Function
     async function checkPassword() {
-      const user = nameInput.value.trim().toLowerCase();
-      const pass = passInput.value;
-
-      if (authorizedUsers[user] && authorizedUsers[user] === pass) {
-        // Unlock site & Send Alert
-        await notifyAccess(user);
+      const u = nameInput.value.trim().toLowerCase();
+      const p = passInput.value;
+      if (authorizedUsers[u] && authorizedUsers[u] === p) {
+        await notifyAccess(u);
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('protectedContent').style.display = 'block';
         sessionStorage.setItem('isLoggedIn', 'true');
       } else {
         document.getElementById('errMsg').style.display = 'block';
-        passInput.value = '';
       }
     }
 
-    // Auto-login if session is active
     window.onload = function() {
       if (sessionStorage.getItem('isLoggedIn') === 'true') {
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('protectedContent').style.display = 'block';
       }
     };
-
-    // Keyboard support (Enter)
-    [passInput, nameInput].forEach(el => {
-      el.addEventListener("keyup", (e) => { if (e.key === "Enter") checkPassword(); });
-    });
+    [passInput, nameInput].forEach(el => { el.addEventListener("keyup", (e) => { if (e.key === "Enter") checkPassword(); }); });
   </script>
-
 </body>
 </html>
